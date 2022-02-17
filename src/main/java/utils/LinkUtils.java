@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LinkUtils {
 
-  private static final String SESSION_KEY = "53616c7465645f5fd474fe2c51deb94e08915c4d0305147226076793d2a9d92b9685def23d0d700611a652fad8a58d66";
+  private static final String SESSION_KEY = "53616c7465645f5f55d440c7a77c8f31e74336b09245af084709f0ea4cfda3752931e74dafdf34c4cbba2d73c3bc4d9979acc94e378137dc0c7b13929796b091";
   private static final Connection CONNECTION = Jsoup.newSession()
       .cookie("session", SESSION_KEY);
 

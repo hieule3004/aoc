@@ -1,7 +1,6 @@
-import utils.LinkUtils;
-import y2021.D03BinaryDiagnostic;
-import y2021.D04GiantSquid;
+import utils.DailyChallenge;
 import y2021.D05HydrothermalVenture;
+import y2021.D06Lanternfish;
 
 import java.util.Scanner;
 
@@ -9,7 +8,9 @@ public class Main {
 
 
   private static void mainInternal() {
-    System.out.println(D05HydrothermalVenture.q1());
+    DailyChallenge challenge = new D06Lanternfish();
+    System.out.println(challenge.q1());
+    System.out.println(challenge.q2());
   }
 
   public static void main(String[] args) {

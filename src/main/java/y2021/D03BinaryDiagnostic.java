@@ -2,17 +2,16 @@ package y2021;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import utils.DailyChallenge;
 import utils.LinkUtils;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class D03BinaryDiagnostic {
+public class D03BinaryDiagnostic implements DailyChallenge {
 
   private static final List<String> INPUT = List
       .of(LinkUtils.getInput(D03BinaryDiagnostic.class).split(" "));
 
-  public static int q1() {
+  @Override
+  public Number q1() {
     return INPUT
         .map(s -> List.ofAll(s.chars().boxed())
             .map(c -> c > '0' ? 1 : -1))
@@ -23,11 +22,12 @@ public class D03BinaryDiagnostic {
         .get();
   }
 
-  public static int q2() {
+  @Override
+  public Number q2() {
     return getCommon('1') * getCommon('0');
   }
 
-  private static int getCommon(char c) {
+  private int getCommon(char c) {
     return List.range(0, INPUT.head().length())
         .foldLeft(INPUT, (l, i) -> l.length() == 1 ? l : Option
             .of(l.groupBy(v -> v.charAt(i)))

@@ -5,13 +5,11 @@ import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import utils.DailyChallenge;
 import utils.LinkUtils;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class D02Dive {
+public class D02Dive implements DailyChallenge {
 
   private static final List<Tuple2<Command, Integer>> INPUT = List
       .of(LinkUtils.getInput(D02Dive.class).split(" (?=[fud])"))
@@ -19,14 +17,16 @@ public class D02Dive {
           .toMap(ss -> Command.fromName(ss[0]), ss -> Integer.parseInt(ss[1]))
           .head());
 
-  public static int q1() {
+  @Override
+  public Number q1() {
     return INPUT
         .foldLeft(Tuple.of(0, 0),
             (t, c) -> c._1.op1.apply(t, c._2))
         .apply(Math::multiplyExact);
   }
 
-  public static int q2() {
+  @Override
+  public Number q2() {
     return INPUT
         .foldLeft(Tuple.of(0, 0, 0),
             (t, c) -> c._1.op2.apply(t, c._2))

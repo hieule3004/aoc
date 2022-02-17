@@ -6,12 +6,10 @@ import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.control.Option;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import utils.DailyChallenge;
 import utils.LinkUtils;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class D04GiantSquid {
+public class D04GiantSquid implements DailyChallenge {
 
   // number of row/col
   private static final int DIM = 5;
@@ -39,14 +37,16 @@ public class D04GiantSquid {
         .mapValues(l -> l.map(Tuple2::_2));
   }
 
-  public static int q1() {
+  @Override
+  public Number q1() {
     return getScore(Tuple.of(List.fill(NUM_BOARDS * TRACK_SIZE, 0)),
         (a, i) -> a
             .map(ls -> ls.update(i, n -> n + 1)),
         (a, i) -> a._1.get(i) == DIM);
   }
 
-  public static int q2() {
+  @Override
+  public Number q2() {
     return getScore(Tuple.of(List.fill(NUM_BOARDS * TRACK_SIZE, 0), List.range(0, NUM_BOARDS).toSet()),
         (a, i) -> a
             .map1(ls -> ls.update(i, n -> n + 1))
@@ -54,9 +54,9 @@ public class D04GiantSquid {
         (a, i) -> a._2.isEmpty());
   }
 
-  public static <T> int getScore(T acc,
-                                 Function2<T, Integer, T> updater,
-                                 Function2<T, Integer, Boolean> finder) {
+  public static <T> Number getScore(T acc,
+                                    Function2<T, Integer, T> updater,
+                                    Function2<T, Integer, Boolean> finder) {
     return GUESSES.toStream()
         .zipWithIndex()
         .scanLeft(Tuple.of(Option.<Tuple2<Integer, Integer>>none(), acc),
@@ -68,8 +68,10 @@ public class D04GiantSquid {
                     .map2(a -> updater.apply(a, i))
                     .map((opt, a) -> Tuple.of(finder.apply(a, i) ? Option.of(Tuple.of(gi._2, i / TRACK_SIZE)) : opt, a))
                 )))
+        // check found
         .find(p -> p._1.isDefined())
         .flatMap(Tuple2::_1).get()
+        // calculate board value
         .apply((i, b) -> GUESSES.get(i) * BOARDS
             .subSequence(BOARD_SIZE * b, BOARD_SIZE * (b + 1))
             .filterNot(GUESSES.take(i + 1).toSet()::contains)
